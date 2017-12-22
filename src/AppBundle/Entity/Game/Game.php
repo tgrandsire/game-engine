@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Game;
 use AppBundle\Model\EntityInterface;
 use AppBundle\Model\EntityTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Un jeu (eg. catane, risk, pandemie)
@@ -21,6 +22,7 @@ class Game implements EntityInterface
 	 * @var string
 	 *
 	 * @ORM\Column(name="name", type="string", length=255, unique=true)
+	 * @Assert\NotBlank
 	 */
 	protected $name;
 

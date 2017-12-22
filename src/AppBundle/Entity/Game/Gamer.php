@@ -6,6 +6,7 @@ use AppBundle\Entity\Game\Gamer;
 use AppBundle\Model\EntityInterface;
 use AppBundle\Model\EntityTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Un joueur (compte de jeu)
@@ -23,6 +24,7 @@ class Gamer implements EntityInterface
 	 * @var string
 	 *
 	 * @ORM\Column(name="pasudo", type="string", length=255, unique=true)
+	 * @Assert\NotBlank
 	 */
 	protected $pseudo;
 
