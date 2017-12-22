@@ -1,34 +1,28 @@
 <?php
 namespace AppBundle\Entity\Game;
 
+use AppBundle\Model\EntityInterface;
+use AppBundle\Model\EntityTrait;
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Un jeu (eg. catane, risk, pandemie)
+ *
+ * @ORM\Table(name="game")
+ * @ORM\Entity
  */
-class Game
+class Game implements EntityInterface
 {
-	/**
-	 * Id
-	 *
-	 * @var integer
-	 */
-	protected $id;
+	use EntityTrait;
 
 	/**
 	 * Name
 	 *
 	 * @var string
+	 *
+	 * @ORM\Column(name="name", type="string", length=255, unique=true)
 	 */
 	protected $name;
-
-	/**
-	 * Gets its id
-	 *
-	 * @return integer
-	 */
-	public function getId(): integer
-	{
-		return $this->id;
-	}
 
 	/**
 	 * Gets its name
@@ -47,7 +41,7 @@ class Game
 	 *
 	 * @return string
 	 */
-	public function setName(string $name)
+	public function setName(string $name): Game
 	{
 		$this->name = $name;
 

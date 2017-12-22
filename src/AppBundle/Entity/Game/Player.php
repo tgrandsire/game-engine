@@ -2,23 +2,27 @@
 namespace AppBundle\Entity\Game;
 
 use AppBundle\Entity\Game\{Game, Gamer};
+use AppBundle\Model\EntityInterface;
+use AppBundle\Model\EntityTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Un participant d'une partie de jeu (Play)
+ *
+ * @ORM\Table(name="player")
+ * @ORM\Entity
  */
-class Player
+class Player implements EntityInterface
 {
-	/**
-	 * Id
-	 *
-	 * @var integer
-	 */
-	protected $id;
+	use EntityTrait;
 
 	/**
 	 * Gamer
 	 *
 	 * @var Gamer
+	 *
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Gamer")
+     * @ORM\JoinColumn(name="gamer_id", referencedColumnName="id")
 	 */
 	protected $gamer;
 
@@ -26,18 +30,11 @@ class Player
 	 * Play
 	 *
 	 * @var Play
+	 *
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play", inversedBy="players")
+     * @ORM\JoinColumn(name="play_id", referencedColumnName="id")
 	 */
 	protected $play;
-
-	/**
-	 * Sets its id
-	 *
-	 * @return integer
-	 */
-	public function getId(): integer
-	{
-		return $this->id;
-	}
 
 	/**
 	 * Gets its gamer
@@ -80,7 +77,7 @@ class Player
 	 *
 	 * @return self
 	 */
-	public function setPlay(Play $play): Player
+	public function setPlay(Play $play = null): Player
 	{
 		$this->play = $play;
 

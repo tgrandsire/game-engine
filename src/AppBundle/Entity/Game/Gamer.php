@@ -2,23 +2,27 @@
 namespace AppBundle\Entity\Game;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Game\Gamer;
+use AppBundle\Model\EntityInterface;
+use AppBundle\Model\EntityTrait;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Un joueur (compte de jeu)
+ *
+ * @ORM\Table(name="gamer")
+ * @ORM\Entity
  */
-class Gamer
+class Gamer implements EntityInterface
 {
-	/**
-	 * Id
-	 *
-	 * @var integer
-	 */
-	protected $id;
+	use EntityTrait;
 
 	/**
 	 * Pseudo
 	 *
 	 * @var string
+	 *
+	 * @ORM\Column(name="pasudo", type="string", length=255, unique=true)
 	 */
 	protected $pseudo;
 
@@ -26,18 +30,11 @@ class Gamer
 	 * User
 	 *
 	 * @var User
+	 *
+	 * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="gamer")
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
 	 */
 	protected $user;
-
-	/**
-	 * Gets its id
-	 *
-	 * @return integer
-	 */
-	public function getId(): integer
-	{
-		return $this->id;
-	}
 
 	/**
 	 * Gets its pseudo

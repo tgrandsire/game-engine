@@ -2,23 +2,28 @@
 namespace AppBundle\Entity\Game;
 
 use AppBundle\Entity\Game\{Game, Player};
+use AppBundle\Model\EntityInterface;
+use AppBundle\Model\EntityTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Une partie de jeu
+ *
+ * @ORM\Table(name="play")
+ * @ORM\Entity
  */
-class Play
+class Play implements EntityInterface
 {
-	/**
-	 * Id
-	 *
-	 * @var integer
-	 */
-	protected $id;
+	use EntityTrait;
 
 	/**
 	 * Game
 	 *
 	 * @var Game
+	 *
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Game")
+     * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
 	 */
 	protected $game;
 
@@ -26,17 +31,17 @@ class Play
 	 * Collection of players
 	 *
 	 * @var ArrayCollection<Player>
+	 *
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Player", mappedBy="play")
 	 */
 	protected $players;
 
 	/**
-	 * Gets its id
-	 *
-	 * @return integer
+	 * Constructor
 	 */
-	public function getId(): integer
+	public function __construct()
 	{
-		return $this->id;
+		$this->players = new ArrayCollection();
 	}
 
 	/**
