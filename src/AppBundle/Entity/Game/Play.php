@@ -1,9 +1,9 @@
 <?php
 namespace AppBundle\Entity\Game;
 
+use ApiPlatform\Core\Annotation\{ApiProperty, ApiResource, ApiSubresource};
 use AppBundle\Entity\Game\{Game, Player};
-use AppBundle\Model\EntityInterface;
-use AppBundle\Model\EntityTrait;
+use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -24,6 +24,8 @@ class Play implements EntityInterface
 	 *
 	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Game")
      * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
+     *
+     * @ApiSubresource
 	 */
 	protected $game;
 
@@ -33,6 +35,8 @@ class Play implements EntityInterface
 	 * @var ArrayCollection<Player>
 	 *
 	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Player", mappedBy="play")
+	 *
+	 * @ApiSubresource
 	 */
 	protected $players;
 

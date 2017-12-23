@@ -15,10 +15,10 @@ framework:
     router:
         resource: '%kernel.project_dir%/app/config/routing.yml'
         strict_requirements: ~
-    form: ~
+    form: { enabled: true }
     csrf_protection: ~
     validation: { enable_annotations: true }
-    #serializer: { enable_annotations: true }
+    serializer: { enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale: '%locale%'
@@ -79,3 +79,9 @@ fos_user:
 api_platform:
     # Enable the FOSUserBundle integration.
     enable_fos_user: true
+
+lexik_jwt_authentication:
+    private_key_path: '%jwt_private_key_path%'
+    public_key_path:  '%jwt_public_key_path%'
+    pass_phrase:      '%jwt_key_pass_phrase%'
+    token_ttl:        '%jwt_token_ttl%'

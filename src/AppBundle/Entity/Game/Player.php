@@ -2,8 +2,7 @@
 namespace AppBundle\Entity\Game;
 
 use AppBundle\Entity\Game\{Game, Gamer};
-use AppBundle\Model\EntityInterface;
-use AppBundle\Model\EntityTrait;
+use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 
 /**

@@ -3,8 +3,7 @@ namespace AppBundle\Entity\Game;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Game\Gamer;
-use AppBundle\Model\EntityInterface;
-use AppBundle\Model\EntityTrait;
+use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

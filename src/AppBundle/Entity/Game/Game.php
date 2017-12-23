@@ -1,8 +1,7 @@
 <?php
 namespace AppBundle\Entity\Game;
 
-use AppBundle\Model\EntityInterface;
-use AppBundle\Model\EntityTrait;
+use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -1,13 +1,20 @@
 <?php
 namespace AppBundle\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Entity\Game\Gamer;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="`user`")
+ *
+ * @ApiResource(attributes={
+ *     "normalization_context"={"groups"={"user", "user-read"}},
+ *     "denormalization_context"={"groups"={"user", "user-write"}}
+ * })
  */
 class User extends BaseUser
 {

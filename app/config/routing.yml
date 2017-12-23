@@ -9,3 +9,6 @@ api:
     resource: '.'
     type: 'api_platform'
     prefix: '/api' # Optional
+
+api_login_check:
+    path: /api/login_check
