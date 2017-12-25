@@ -1,6 +1,6 @@
-resources:
-    # AppBundle\Entity\Game\Game: ~
-    # AppBundle\Entity\Game\Gamer: ~
-    # AppBundle\Entity\Game\Play: ~
-    # AppBundle\Entity\Game\Player: ~
-    # AppBundle\Entity\Game\Turn\Turn: ~
+# resources:
+#     AppBundle\Entity\Game\Game: ~
+#     AppBundle\Entity\Game\Gamer: ~
+#     AppBundle\Entity\Game\Play: ~
+#     AppBundle\Entity\Game\Player: ~
+#     AppBundle\Entity\Game\Turn\Turn: ~
