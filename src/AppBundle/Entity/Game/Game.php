@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Entity\Game;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -10,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="game")
  * @ORM\Entity
+ *
+ * @ApiResource()
  */
 class Game implements EntityInterface
 {

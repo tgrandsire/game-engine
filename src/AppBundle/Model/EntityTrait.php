@@ -22,9 +22,9 @@ Trait EntityTrait
 	/**
 	 * Gets its id
 	 *
-	 * @return integer
+	 * @return int
 	 */
-	public function getId(): integer
+	public function getId(): int
 	{
 		return $this->id;
 	}

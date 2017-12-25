@@ -9,7 +9,7 @@ interface EntityInterface
 	/**
 	 * Gets its id
 	 *
-	 * @return integer
+	 * @return int
 	 */
-	public function getId();
+	public function getId(): int;
 }

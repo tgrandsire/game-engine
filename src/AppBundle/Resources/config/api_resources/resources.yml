@@ -1,4 +1,5 @@
 # resources:
+#     AppBundle\Entity\User: ~
 #     AppBundle\Entity\Game\Game: ~
 #     AppBundle\Entity\Game\Gamer: ~
 #     AppBundle\Entity\Game\Play: ~
