@@ -1,10 +1,12 @@
 <?php
 namespace AppBundle\Entity;
 
+
 use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Entity\Game\Gamer;
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Model\User as BaseUser;
+use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
@@ -26,6 +28,63 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @ORM\Column(name="fullname", type="string", length=255, nullable=true)
+     * @Groups({"user"})
+     */
+    protected $fullname;
+
+    /**
+     * @Groups({"user"})
+     */
+    protected $email;
+
+    /**
+     * @Groups({"user-write"})
+     */
+    protected $plainPassword;
+
+    /**
+     * @Groups({"user"})
+     */
+    protected $username;
+
+    /**
+     * Sets its fullname
+     *
+     * @param string $fullname
+     *
+     * @return self
+     */
+    public function setFullname($fullname)
+    {
+        $this->fullname = $fullname;
+
+        return $this;
+    }
+
+    /**
+     * Gets its fullname
+     *
+     * @return string
+     */
+    public function getFullname()
+    {
+        return $this->fullname;
+    }
+
+    /**
+     * Returns whether is a User
+     *
+     * @param  UserInterface|null $user
+     *
+     * @return boolean
+     */
+    public function isUser(UserInterface $user = null): boolean
+    {
+        return $user instanceof self && $user->id === $this->id;
+    }
+
+    /**
      * Gamer
      *
      * @var Gamer
@@ -33,14 +92,6 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Game\Gamer", mappedBy="user")
      */
     protected $gamer = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
 
     /**
      * Gets its gamer
