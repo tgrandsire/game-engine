@@ -22,7 +22,7 @@ class Gamer implements EntityInterface
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="pasudo", type="string", length=255, unique=true)
+	 * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
 	 * @Assert\NotBlank
 	 */
 	protected $pseudo;

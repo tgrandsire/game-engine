@@ -92,7 +92,6 @@ class User extends BaseUser
         return $user instanceof self && $user->id === $this->id;
     }
 
-
     /**
      * Gets its gamer
      *
