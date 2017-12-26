@@ -1,7 +1,6 @@
 <?php
 namespace AppBundle\Entity;
 
-
 use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Entity\Game\Gamer;
 use Doctrine\ORM\Mapping as ORM;
@@ -49,13 +48,22 @@ class User extends BaseUser
     protected $username;
 
     /**
+     * Gamer
+     *
+     * @var Gamer
+     *
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Game\Gamer", mappedBy="user")
+     */
+    protected $gamer = null;
+
+    /**
      * Sets its fullname
      *
      * @param string $fullname
      *
      * @return self
      */
-    public function setFullname($fullname)
+    public function setFullname($fullname): User
     {
         $this->fullname = $fullname;
 
@@ -67,7 +75,7 @@ class User extends BaseUser
      *
      * @return string
      */
-    public function getFullname()
+    public function getFullname(): string
     {
         return $this->fullname;
     }
@@ -84,14 +92,6 @@ class User extends BaseUser
         return $user instanceof self && $user->id === $this->id;
     }
 
-    /**
-     * Gamer
-     *
-     * @var Gamer
-     *
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Game\Gamer", mappedBy="user")
-     */
-    protected $gamer = null;
 
     /**
      * Gets its gamer
