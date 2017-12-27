@@ -22,18 +22,24 @@ security:
             provider: fos_userbundle
             form_login:
                 check_path: /login_check
-                username_parameter: _username
-                password_parameter: _password
+                username_parameter: username
+                password_parameter: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
 
-        main:
-            pattern: ^/
-            provider: fos_userbundle
-            stateless: true
-            anonymous: true
-            lexik_jwt: ~
+        # main:
+        #     pattern: ^/
+        #     provider: fos_userbundle
+        #     stateless: true
+        #     anonymous: true
+        #     lexik_jwt:
+        #         authorization_header: # check token in Authorization Header
+        #             enabled: true
+        #             prefix:  Bearer
+        #         query_parameter:
+        #             enabled: true
+        #             name:    bearer
 
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -41,11 +47,5 @@ security:
             security: false
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin/, role: ROLE_ADMIN }
-        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api,       roles: IS_AUTHENTICATED_FULLY }
-        - { path: ^/app/, role: ROLE_USER }
-        - { path: ^/app/game/, role: ROLE_GAMER }
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/,      roles: IS_AUTHENTICATED_FULLY }
