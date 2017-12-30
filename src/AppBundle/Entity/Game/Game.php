@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="game")
  * @ORM\Entity
  *
- * @ApiResource()
+ * @ApiResource(attributes={"filters"={"game.name_filter"}})
  */
 class Game implements EntityInterface
 {
