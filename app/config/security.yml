@@ -15,37 +15,41 @@ security:
             id: fos_user.user_provider.username
 
     firewalls:
-        login:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        api_login:
             pattern:  ^/login
             stateless: true
             anonymous: true
             provider: fos_userbundle
             form_login:
                 check_path: /login_check
-                username_parameter: username
-                password_parameter: password
+                username_parameter: _username
+                password_parameter: _password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
 
-        # main:
-        #     pattern: ^/
+        # web_app:
+        #     pattern: ^/app
         #     provider: fos_userbundle
-        #     stateless: true
-        #     anonymous: true
-        #     lexik_jwt:
-        #         authorization_header: # check token in Authorization Header
-        #             enabled: true
-        #             prefix:  Bearer
-        #         query_parameter:
-        #             enabled: true
-        #             name:    bearer
 
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
+        api:
+            pattern: ^/api
+            provider: fos_userbundle
+            stateless: true
+            anonymous: true
+            lexik_jwt: # ~
+                authorization_header:
+                    enabled: true
+                    prefix:  Bearer
+                throw_exceptions:   false
+                create_entry_point: true
+                authentication_provider: lexik_jwt_authentication.security.authentication.provider
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/,      roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/,      roles: ROLE_USER }

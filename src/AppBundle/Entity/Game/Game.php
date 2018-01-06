@@ -4,6 +4,8 @@ namespace AppBundle\Entity\Game;
 use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use AppBundle\Model\Blameable\BlameableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -17,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Game implements EntityInterface
 {
 	use EntityTrait;
+	use BlameableTrait;
 
 	/**
 	 * Name
