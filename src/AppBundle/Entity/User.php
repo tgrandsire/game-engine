@@ -87,7 +87,7 @@ class User extends BaseUser
      *
      * @return boolean
      */
-    public function isUser(UserInterface $user = null): boolean
+    public function isUser(UserInterface $user = null): bool
     {
         return $user instanceof self && $user->id === $this->id;
     }

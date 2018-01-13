@@ -2,10 +2,10 @@
 namespace AppBundle\Entity\Game;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use AppBundle\Model\Blameable\BlameableTrait;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use AppBundle\Model\Blameable\BlameableTrait;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -14,7 +14,18 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Table(name="game")
  * @ORM\Entity
  *
- * @ApiResource(attributes={"filters"={"game.name_filter"}})
+ * @ApiResource(
+ * 	attributes={
+ * 		"filters"={"game.name_filter"}
+ * 	},
+ * 	collectionOperations={
+ *  	"get"={"method"="GET"},
+ *   	"post"={"method"="POST", "access_control"="is_granted('ROLE_ADMIN')"}
+ *  },
+ *  itemOperations={
+ *  	"get"={"method"="GET", "access_control"="is_granted('ROLE_USER')"}
+ *  }
+ * )
  */
 class Game implements EntityInterface
 {
@@ -30,6 +41,15 @@ class Game implements EntityInterface
 	 * @Assert\NotBlank
 	 */
 	protected $name;
+
+	/**
+	 * whether this is a turn based game
+	 *
+	 * @var boolean
+	 *
+	 * @ORM\Column(name="turn_based", type="boolean", nullable=false)
+	 */
+	protected $turnBasedGame = true;
 
 	/**
 	 * Gets its name
@@ -53,5 +73,29 @@ class Game implements EntityInterface
 		$this->name = $name;
 
 		return $this;
+	}
+
+	/**
+	 * Sets whether this is a turn based game
+	 *
+	 * @param boolean $turnBasedGame
+	 *
+	 * @return self
+	 */
+	public function setTurnBasedGame($turnBasedGame): Game
+	{
+		$this->turnBasedGame = $turnBasedGame;
+
+		return $this;
+	}
+
+	/**
+	 * Returns whether this is a turn based game
+	 *
+	 * @return boolean
+	 */
+	public function isTurnBasedGame(): bool
+	{
+		return $this->turnBasedGame;
 	}
 }

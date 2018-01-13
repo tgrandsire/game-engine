@@ -12,6 +12,19 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="play")
  * @ORM\Entity
+ *
+ */
+
+/*
+ * @ApiResource(
+ * 	collectionOperations={
+ *  	"get"={"method"="GET"},
+ *   	"post"={"method"="POST", "access_control"="is_granted('ROLE_GAMER')"}
+ *  },
+ *  itemOperations={
+ *  	"get"={"method"="GET", "access_control"="is_granted('ROLE_USER')"}
+ *  }
+ * )
  */
 class Play implements EntityInterface
 {
@@ -41,11 +54,22 @@ class Play implements EntityInterface
 	protected $players;
 
 	/**
+	 * Turns
+	 *
+	 * @var ArrayCollection<Turn>
+	 *
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Turn\Turn", mappedBy="play")
+	 * @ORM\OrderBy({"id" = "ASC"})
+	 */
+	protected $turns;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
 	{
 		$this->players = new ArrayCollection();
+		$this->turns = new ArrayCollection();
 	}
 
 	/**
@@ -111,6 +135,54 @@ class Play implements EntityInterface
 		if ($this->players->contains($player)) {
 			$this->players->removeElement($player);
 			$player->setPlay(null);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Gets its turns
+	 *
+	 * @return ArrayCollection<Turn>
+	 */
+	public function getTurns(): ArrayCollection
+	{
+		return $this->turns;
+	}
+
+	/**
+	 * Adds a turn
+	 *
+	 * @param Turn $turn
+	 *
+	 * @return self
+	 */
+	public function addTurn(Turn $turn): Play
+	{
+		if ($this->game->isTurnBasedGame()) {
+			if (!$this->turns->contains($turns)) {
+				$this->turns->add($turn);
+				$turn->setPlay($this);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Removes a turn
+	 *
+	 * @param  Turn   $turn
+	 *
+	 * @return self
+	 */
+	public function removeTurn(Turn $turn): Play
+	{
+		if ($this->game->isTurnBasedGame()) {
+			if ($this->turns->contains($turns)) {
+				$this->turns->removeElement($turn);
+				$turn->setPlay(null);
+			}
 		}
 
 		return $this;
