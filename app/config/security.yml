@@ -12,44 +12,32 @@ security:
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
         fos_userbundle:
-            id: fos_user.user_provider.username
+            id: fos_user.user_provider.username_email
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
-        api_login:
-            pattern:  ^/login
+        login:
+            pattern:  ^/api/login
             stateless: true
             anonymous: true
             provider: fos_userbundle
             form_login:
-                check_path: /login_check
-                username_parameter: _username
-                password_parameter: _password
-                success_handler: lexik_jwt_authentication.handler.authentication_success
-                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                check_path:               /api/login_check
+                success_handler:          lexik_jwt_authentication.handler.authentication_success
+                failure_handler:          lexik_jwt_authentication.handler.authentication_failure
                 require_previous_session: false
 
-        # web_app:
-        #     pattern: ^/app
-        #     provider: fos_userbundle
-
         api:
-            pattern: ^/api
+            pattern:   ^/api
             provider: fos_userbundle
             stateless: true
-            anonymous: true
-            lexik_jwt: # ~
-                authorization_header:
-                    enabled: true
-                    prefix:  Bearer
-                throw_exceptions:   false
-                create_entry_point: true
-                authentication_provider: lexik_jwt_authentication.security.authentication.provider
+            guard:
+                authenticators:
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/,      roles: ROLE_USER }
+        - { path: ^/api/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: [ IS_AUTHENTICATED_FULLY ] }
