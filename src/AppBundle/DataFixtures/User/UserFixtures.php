@@ -13,7 +13,7 @@ class UserFixtures extends Fixture implements ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        // Get our userManager, you must implement `ContainerAwareInterface`
+        // Get our userManager
         $userManager = $this->container->get('fos_user.user_manager');
 
         // Create our admin user and set details
