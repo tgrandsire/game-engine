@@ -40,7 +40,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user", "user-read-owner"})
+     * @Groups({"user", "game"})
      */
     protected $fullname;
 

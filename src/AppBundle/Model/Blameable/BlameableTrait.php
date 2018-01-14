@@ -2,9 +2,9 @@
 
 namespace AppBundle\Model\Blameable;
 
-use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Blameable Trait inpired By Gedmo\Blameable\Traits\BlameableEntity
@@ -17,6 +17,8 @@ trait BlameableTrait
      * @Gedmo\Blameable(on="create")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(name="created_by", referencedColumnName="id")
+     *
+     * @Groups({"game"})
      */
     protected $createdBy;
 
@@ -26,6 +28,8 @@ trait BlameableTrait
      * @Gedmo\Blameable(on="update")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      * @ORM\JoinColumn(name="updated_by", referencedColumnName="id")
+     *
+     * @Groups({"game"})
      */
     protected $updatedBy;
 

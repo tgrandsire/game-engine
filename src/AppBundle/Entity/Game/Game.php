@@ -3,10 +3,12 @@ namespace AppBundle\Entity\Game;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use AppBundle\Model\Blameable\BlameableTrait;
+use AppBundle\Model\Timestampable\TimestampableTrait;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Un jeu (eg. catane, risk, pandemie)
@@ -16,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ApiResource(
  * 	attributes={
+ * 		"normalization_context"={"groups"={"game"}},
  * 		"filters"={"game.name_filter"}
  * 	},
  * 	collectionOperations={
@@ -31,6 +34,7 @@ class Game implements EntityInterface
 {
 	use EntityTrait;
 	use BlameableTrait;
+	use TimestampableTrait;
 
 	/**
 	 * Name
@@ -39,6 +43,8 @@ class Game implements EntityInterface
 	 *
 	 * @ORM\Column(name="name", type="string", length=255, unique=true)
 	 * @Assert\NotBlank
+	 *
+	 * @Groups({"game"})
 	 */
 	protected $name;
 
