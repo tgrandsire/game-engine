@@ -9,13 +9,25 @@ use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
+ * User
+ *
+ * ! CANNOT implements EntityInterface neither use EntityTrait !
+ *
  * @ORM\Entity
  * @ORM\Table(name="`user`")
  *
- * @ApiResource(attributes={
- *     "normalization_context"={"groups"={"user", "user-read"}},
- *     "denormalization_context"={"groups"={"user", "user-write"}}
- * })
+ * @ApiResource(
+ *     attributes={
+ *         "normalization_context"={"groups"={"user", "user-read"}},
+ *         "denormalization_context"={"groups"={"user", "user-write"}}
+ *     },
+ *     collectionOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN')"}
+ *     },
+ *     itemOperations={
+ *         "get"={"method"="GET", "access_control"="is_granted('ROLE_ADMIN') or object.getId() == user.getId()"}
+ *     }
+ * )
  */
 class User extends BaseUser
 {
@@ -28,7 +40,7 @@ class User extends BaseUser
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user"})
+     * @Groups({"user", "user-read-owner"})
      */
     protected $fullname;
 
@@ -55,6 +67,16 @@ class User extends BaseUser
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Game\Gamer", mappedBy="user")
      */
     protected $gamer = null;
+
+    /**
+     * Gets its id
+     *
+     * @return integer
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
 
     /**
      * Sets its fullname
