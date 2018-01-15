@@ -6,51 +6,48 @@ use AppBundle\Entity\Game\Game;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
-class GameFixtures extends Fixture implements
-    ContainerAwareInterface,
-    DependentFixtureInterface
+class GameFixtures extends Fixture implements DependentFixtureInterface
 {
-	use ContainerAwareTrait;
-
+    /**
+     * {@inheritdoc}
+     */
     public function load(ObjectManager $manager)
     {
         $catane = (new Game())
             ->setName('Catane')
-            ->setCreatedBy($this->getReference('admin-user'))
-            ->setUpdatedBy($this->getReference('admin-user'))
+            ->setCreatedBy($this->getReference('user-admin'))
+            ->setUpdatedBy($this->getReference('user-admin'))
         ;
         $manager->persist($catane);
 
         $risk = (new Game())
             ->setName('Risk')
-            ->setCreatedBy($this->getReference('admin-user'))
-            ->setUpdatedBy($this->getReference('admin-user'))
+            ->setCreatedBy($this->getReference('user-admin'))
+            ->setUpdatedBy($this->getReference('user-admin'))
         ;
         $manager->persist($risk);
 
         $takenoko = (new Game())
             ->setName('TakeNoKo')
-            ->setCreatedBy($this->getReference('admin-user'))
-            ->setUpdatedBy($this->getReference('admin-user'))
+            ->setCreatedBy($this->getReference('user-admin'))
+            ->setUpdatedBy($this->getReference('user-admin'))
         ;
         $manager->persist($takenoko);
 
         $chest = (new Game())
             ->setName('Chest')
-            ->setCreatedBy($this->getReference('admin-user'))
-            ->setUpdatedBy($this->getReference('admin-user'))
+            ->setCreatedBy($this->getReference('user-admin'))
+            ->setUpdatedBy($this->getReference('user-admin'))
         ;
         $manager->persist($chest);
 
-        $dixmille = (new Game())
+        $tenThousand = (new Game())
             ->setName('Le 10.000')
-            ->setCreatedBy($this->getReference('admin-user'))
-            ->setUpdatedBy($this->getReference('admin-user'))
+            ->setCreatedBy($this->getReference('user-admin'))
+            ->setUpdatedBy($this->getReference('user-admin'))
         ;
-        $manager->persist($dixmille);
+        $manager->persist($tenThousand);
 
         $manager->flush();
 
@@ -58,7 +55,7 @@ class GameFixtures extends Fixture implements
         $this->addReference('game-risk', $risk);
         $this->addReference('game-takenoko', $takenoko);
         $this->addReference('game-chest', $chest);
-        $this->addReference('game-dixmille', $dixmille);
+        $this->addReference('game-ten-thousand', $tenThousand);
     }
 
     /**

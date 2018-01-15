@@ -26,11 +26,11 @@ class UserFixtures extends Fixture implements ContainerAwareInterface
         $user->setRoles(array('ROLE_ADMIN'));
         // Update the user
         $userManager->updateUser($user, true);
-        $this->addReference('admin-user', $user);
+        $this->addReference('user-admin', $user);
 
         // Create our gamer user and set details
         $user = $userManager->createUser();
-        $user->setUsername('DraytAns');
+        $user->setUsername('Logan');
         $user->setFullname('Logan Moad');
         $user->setEmail('gamer@grandsire.org');
         $user->setPlainPassword('123gamer');
@@ -38,7 +38,7 @@ class UserFixtures extends Fixture implements ContainerAwareInterface
         $user->setRoles(array('ROLE_GAMER'));
         // Update the user
         $userManager->updateUser($user, true);
-        $this->addReference('gamer-user', $user);
+        $this->addReference('user-gamer', $user);
 
         // Create our simple user and set details
         $user = $userManager->createUser();
@@ -50,6 +50,6 @@ class UserFixtures extends Fixture implements ContainerAwareInterface
         $user->setRoles(array('ROLE_USER'));
         // Update the user
         $userManager->updateUser($user, true);
-        $this->addReference('simple-user', $user);
+        $this->addReference('user-base', $user);
     }
 }

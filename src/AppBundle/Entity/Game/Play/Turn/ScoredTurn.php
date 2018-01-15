@@ -1,7 +1,7 @@
 <?php
-namespace AppBundle\Entity\Game\Turn;
+namespace AppBundle\Entity\Game\Play\Turn;
 
-use AppBundle\Entity\Game\Turn\Turn;
+use AppBundle\Entity\Game\Play\Turn\Turn;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

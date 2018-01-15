@@ -1,7 +1,10 @@
 <?php
-namespace AppBundle\Entity\Game;
+namespace AppBundle\Entity\Game\Play\Player;
 
+use ApiPlatform\Core\Annotation\{ApiProperty, ApiResource, ApiSubresource};
 use AppBundle\Entity\Game\{Game, Gamer};
+use AppBundle\Entity\Game\Play\Play;
+use AppBundle\Model\Game\PlayerInterface;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
 
@@ -10,54 +13,28 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="player")
  * @ORM\Entity
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discriminator", type="string")
+ * @ORM\DiscriminatorMap({
+ * 		"named" = "AppBundle\Entity\Game\Play\Player\NamedPlayer",
+ * 		"gamer" = "AppBundle\Entity\Game\Play\Player\GamerPlayer"
+ * })
  */
-class Player implements EntityInterface
+abstract class Player implements
+	EntityInterface,
+	PlayerInterface
 {
 	use EntityTrait;
-
-	/**
-	 * Gamer
-	 *
-	 * @var Gamer
-	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Gamer")
-     * @ORM\JoinColumn(name="gamer_id", referencedColumnName="id")
-	 */
-	protected $gamer;
 
 	/**
 	 * Play
 	 *
 	 * @var Play
 	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play", inversedBy="players")
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Play", inversedBy="players")
      * @ORM\JoinColumn(name="play_id", referencedColumnName="id")
 	 */
 	protected $play;
-
-	/**
-	 * Gets its gamer
-	 *
-	 * @return Gamer
-	 */
-	public function getGamer(): Gamer
-	{
-		return $this->gamer;
-	}
-
-	/**
-	 * Sets its Gamer
-	 *
-	 * @param Gamer $gamer
-	 *
-	 * @return self
-	 */
-	public function setGamer(Gamer $gamer): Player
-	{
-		$this->gamer = $gamer;
-
-		return $this;
-	}
 
 	/**
 	 * Gets its play

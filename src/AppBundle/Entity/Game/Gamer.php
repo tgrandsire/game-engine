@@ -5,6 +5,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Game\Gamer;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -22,10 +23,12 @@ class Gamer implements EntityInterface
 	 *
 	 * @var string
 	 *
-	 * @ORM\Column(name="pseudo", type="string", length=255, unique=true)
+	 * @ORM\Column(name="name", type="string", length=255, unique=true)
 	 * @Assert\NotBlank
+	 *
+	 * @Groups({"play"})
 	 */
-	protected $pseudo;
+	protected $name;
 
 	/**
 	 * User
@@ -38,25 +41,25 @@ class Gamer implements EntityInterface
 	protected $user;
 
 	/**
-	 * Gets its pseudo
+	 * Gets its name
 	 *
 	 * @return string
 	 */
-	public function getPseudo(): string
+	public function getName(): string
 	{
-		return $this->pseudo;
+		return $this->name;
 	}
 
 	/**
-	 * Sets its pseudo
+	 * Sets its name
 	 *
-	 * @param string $pseudo
+	 * @param string $name
 	 *
 	 * return self
 	 */
-	public function setPseudo(string $pseudo): Gamer
+	public function setName(string $name): Gamer
 	{
-		$this->pseudo = $pseudo;
+		$this->name = $name;
 
 		return $this;
 	}
@@ -81,5 +84,7 @@ class Gamer implements EntityInterface
 	public function setUser(User $user): Gamer
 	{
 		$this->user = $user;
+
+		return $this;
 	}
 }

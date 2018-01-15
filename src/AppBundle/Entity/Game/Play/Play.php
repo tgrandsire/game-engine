@@ -1,11 +1,16 @@
 <?php
-namespace AppBundle\Entity\Game;
+namespace AppBundle\Entity\Game\Play;
 
 use ApiPlatform\Core\Annotation\{ApiProperty, ApiResource, ApiSubresource};
-use AppBundle\Entity\Game\{Game, Player};
+use AppBundle\Entity\Game\Game;
+use AppBundle\Entity\Game\Play\Player\Player;
+use AppBundle\Entity\Game\Play\Turn\Turn;
+use AppBundle\Model\Blameable\BlameableTrait;
+use AppBundle\Model\Timestampable\TimestampableTrait;
 use AppBundle\Model\{EntityInterface, EntityTrait};
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\{ArrayCollection, Collection};
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Une partie de jeu
@@ -13,22 +18,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="play")
  * @ORM\Entity
  *
- */
-
-/*
- * @ApiResource(
- * 	collectionOperations={
- *  	"get"={"method"="GET"},
- *   	"post"={"method"="POST", "access_control"="is_granted('ROLE_GAMER')"}
- *  },
- *  itemOperations={
- *  	"get"={"method"="GET", "access_control"="is_granted('ROLE_USER')"}
- *  }
- * )
+ * @ApiResource(attributes={"normalization_context"={"groups"={"play"}}})
  */
 class Play implements EntityInterface
 {
 	use EntityTrait;
+	use BlameableTrait;
+	use TimestampableTrait;
 
 	/**
 	 * Game
@@ -38,27 +34,27 @@ class Play implements EntityInterface
 	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Game")
      * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      *
-     * @ApiSubresource
+     * @Groups({"play"})
 	 */
 	protected $game;
 
 	/**
 	 * Collection of players
 	 *
-	 * @var ArrayCollection<Player>
+	 * @var Collection<Player>
 	 *
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Player", mappedBy="play")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Play\Player\Player", mappedBy="play")
 	 *
-	 * @ApiSubresource
+	 * @Groups({"play"})
 	 */
 	protected $players;
 
 	/**
 	 * Turns
 	 *
-	 * @var ArrayCollection<Turn>
+	 * @var Collection<Turn>
 	 *
-	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Turn\Turn", mappedBy="play")
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Play\Turn\Turn", mappedBy="play")
 	 * @ORM\OrderBy({"id" = "ASC"})
 	 */
 	protected $turns;
@@ -69,7 +65,7 @@ class Play implements EntityInterface
 	public function __construct()
 	{
 		$this->players = new ArrayCollection();
-		$this->turns = new ArrayCollection();
+		$this->turns   = new ArrayCollection();
 	}
 
 	/**
@@ -99,11 +95,23 @@ class Play implements EntityInterface
 	/**
 	 * Gets its players
 	 *
-	 * @return ArrayColletion
+	 * @return Colletion
 	 */
-	public function getPlayers(): ArrayCollection
+	public function getPlayers(): Collection
 	{
 		return $this->players;
+	}
+
+	/**
+	 * Sets its players
+	 *
+	 * @return self
+	 */
+	public function setPlayers($players): Play
+	{
+		$this->players = $players;
+
+		return $this;
 	}
 
 	/**
@@ -143,9 +151,9 @@ class Play implements EntityInterface
 	/**
 	 * Gets its turns
 	 *
-	 * @return ArrayCollection<Turn>
+	 * @return Collection<Turn>
 	 */
-	public function getTurns(): ArrayCollection
+	public function getTurns(): Collection
 	{
 		return $this->turns;
 	}

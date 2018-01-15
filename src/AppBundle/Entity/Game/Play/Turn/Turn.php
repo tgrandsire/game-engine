@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Entity\Game\Turn;
+namespace AppBundle\Entity\Game\Play\Turn;
 
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
  * @ORM\DiscriminatorMap({
- * 		"turn"   = "AppBundle\Entity\Game\Turn\Turn",
- * 		"scored" = "AppBundle\Entity\Game\Turn\ScoredTurn"
+ * 		"turn"   = "AppBundle\Entity\Game\Play\Turn\Turn",
+ * 		"scored" = "AppBundle\Entity\Game\Play\Turn\ScoredTurn"
  * })
  */
 abstract class Turn implements EntityInterface
@@ -24,6 +24,9 @@ abstract class Turn implements EntityInterface
 	 * Play
 	 *
 	 * @var Play
+	 *
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Play", inversedBy="turns")
+     * @ORM\JoinColumn(name="play_id", referencedColumnName="id")
 	 */
 	protected $play;
 
@@ -31,6 +34,9 @@ abstract class Turn implements EntityInterface
 	 * Player
 	 *
 	 * @var Player
+	 *
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Player\Player")
+     * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
 	 */
 	protected $player;
 
