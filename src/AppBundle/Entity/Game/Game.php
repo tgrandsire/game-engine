@@ -2,10 +2,12 @@
 namespace AppBundle\Entity\Game;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use AppBundle\Model\Blameable\BlameableTrait;
 use AppBundle\Model\Timestampable\TimestampableTrait;
 use AppBundle\Model\{EntityInterface, EntityTrait};
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -58,6 +60,25 @@ class Game implements EntityInterface
 	protected $turnBasedGame = true;
 
 	/**
+	 * Play of the game
+	 *
+	 * @var ArrayCollection<Play>
+	 *
+	 * @ORM\OneToMany(targetEntity="AppBundle\Entity\Game\Play\Play", mappedBy="game")
+	 *
+	 * @ApiSubresource
+	 */
+	protected $plays;
+
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->plays = new ArrayCollection();
+	}
+
+	/**
 	 * Gets its name
 	 *
 	 * @return string
@@ -103,5 +124,41 @@ class Game implements EntityInterface
 	public function isTurnBasedGame(): bool
 	{
 		return $this->turnBasedGame;
+	}
+
+	public function addPlay(Play $play): Game
+	{
+		if (! $this->plays->contains($play)) {
+			$this->plays->add($play);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Removes a play
+	 *
+	 * @param  Play   $play
+	 *
+	 * @return self
+	 */
+	public function removePlay(Play $play): Game
+	{
+		if ($this->plays->contains($play)) {
+			$this->plays->removeElement($play);
+			$play->setGame(null);
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Gets its plays
+	 *
+	 * @return ArrayCollection
+	 */
+	public function getPlays(): ArrayCollection
+	{
+		return $this->plays;
 	}
 }

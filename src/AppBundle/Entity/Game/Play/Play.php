@@ -22,6 +22,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Play implements EntityInterface
 {
+	/**
+	 * Stages
+	 */
+	const SETTING = 0;
+	const PROGESS = 1;
+	const ENDED   = 2;
+
+	public static $stages = array(
+		self::SETTING,
+		self::PROGESS,
+		self::ENDED,
+	);
+
 	use EntityTrait;
 	use BlameableTrait;
 	use TimestampableTrait;
@@ -31,7 +44,7 @@ class Play implements EntityInterface
 	 *
 	 * @var Game
 	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Game")
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Game", inversedBy="plays")
      * @ORM\JoinColumn(name="game_id", referencedColumnName="id")
      *
      * @Groups({"play"})
@@ -60,6 +73,17 @@ class Play implements EntityInterface
 	protected $turns;
 
 	/**
+	 * State of the game (Setting, ongoing, ended)
+	 *
+	 * @var integer
+	 *
+	 * @ORM\Column(name="stage", type="integer")
+	 *
+	 * @Groups({"play"})
+	 */
+	protected $stage = self::SETTING;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -81,11 +105,11 @@ class Play implements EntityInterface
 	/**
 	 * Sets its game
 	 *
-	 * @param Game $game
+	 * @param Game|null $game
 	 *
 	 * @return self
 	 */
-	public function setGame(Game $game): Play
+	public function setGame(Game $game = null): Play
 	{
 		$this->game = $game;
 
@@ -167,6 +191,10 @@ class Play implements EntityInterface
 	 */
 	public function addTurn(Turn $turn): Play
 	{
+		if ($this->isStarted() && ! $this->isEnded()) {
+			throw new \LogicException('The game (play) is not in progress');
+		}
+
 		if ($this->game->isTurnBasedGame()) {
 			if (!$this->turns->contains($turns)) {
 				$this->turns->add($turn);
@@ -180,7 +208,7 @@ class Play implements EntityInterface
 	/**
 	 * Removes a turn
 	 *
-	 * @param  Turn   $turn
+	 * @param Turn $turn
 	 *
 	 * @return self
 	 */
@@ -194,5 +222,63 @@ class Play implements EntityInterface
 		}
 
 		return $this;
+	}
+
+	/**
+	 * Gets the stage
+	 *
+	 * @return integer
+	 */
+	public function getStage(): int
+	{
+		return $this->stage;
+	}
+
+	/**
+	 * Sets the stage
+	 *
+	 * @param integer $stage
+	 *
+	 * @return self
+	 */
+	public function setStage(integer $stage): Play
+	{
+		if (! in_array($stage, self::$stages)) {
+			throw new \LogicException('Stage must be of those values: 0, 1, 2.');
+		}
+
+		$this->stage = $stage;
+
+		return $this;
+	}
+
+	/**
+	 * Retuns whether the play is started
+	 *
+	 * @return boolean
+	 */
+	public function isStarted(): boolean
+	{
+		return $this->stage > self::SETTING;
+	}
+
+	/**
+	 * Returns whether the play is in progress
+	 *
+	 * @return boolean
+	 */
+	public function isInProgress(): boolean
+	{
+		return $this->stage == self::PROGESS;
+	}
+
+	/**
+	 * Returns whether the play is ended
+	 *
+	 * @return boolean
+	 */
+	public function isEnded(): boolean
+	{
+		return $this->stage >= self::ENDED;
 	}
 }
