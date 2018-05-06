@@ -19,11 +19,11 @@ class UniqueNamedPlayerNamePerPlayListener
     	foreach($uow->getScheduledEntityInsertions() as $entity) {
 	        if ($entity instanceof NamedPlayer) {
 	            foreach ($entity->getPlay()->getPlayers() as $player) {
-	            	if ($entity->getName() == $player->getName()) {
+	            	if (strtolower($entity->getName()) == strtolower($player->getName())) {
 	        			$em = $args->getEntityManager();
 
 	        			$em->detach($entity);
-	        			throw new \Exception('Player name must unique for a play');
+	        			throw new \Exception('Player name must be unique for a play');
 	            	}
 	            }
 	        }
