@@ -23,6 +23,7 @@ class NamedPlayer extends Player
 	 *
 	 * @ORM\Column(name="name", type="string", length=255, nullable=false)
 	 * @Assert\Length(min=3, minMessage="Your name must be at least 3 characters long", max=100, maxMessage="Your name must be at most 100 characters long")
+	 * @assert\NotBlank
 	 *
 	 * @Groups({"play"})
 	 */
