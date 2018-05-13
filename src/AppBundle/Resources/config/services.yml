@@ -3,3 +3,9 @@ services:
         class: AppBundle\EventListener\Game\UniqueNamedPlayerNamePerPlayListener
         tags:
             - { name: doctrine.event_listener, event: onFlush }
+
+    app.event_listener.game.player_score:
+        class: AppBundle\EventListener\Game\PlayerScoreListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preRemove }

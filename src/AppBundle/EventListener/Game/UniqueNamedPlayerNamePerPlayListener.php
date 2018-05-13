@@ -8,7 +8,7 @@ use AppBundle\Entity\Game\Play\Player\NamedPlayer;
 class UniqueNamedPlayerNamePerPlayListener
 {
 	/**
-     * Pre persist listener based on doctrine common.
+     * On flush listener based on doctrine common.
      *
      * @param OnFlushEventArgs $args
      */
