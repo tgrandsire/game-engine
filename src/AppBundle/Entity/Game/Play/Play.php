@@ -75,7 +75,7 @@ class Play implements EntityInterface
 	/**
 	 * State of the game (Setting, ongoing, ended)
 	 *
-	 * @var integer
+	 * @var int
 	 *
 	 * @ORM\Column(name="stage", type="integer")
 	 *
@@ -241,7 +241,7 @@ class Play implements EntityInterface
 	 *
 	 * @return self
 	 */
-	public function setStage(integer $stage): Play
+	public function setStage(int $stage): Play
 	{
 		if (! in_array($stage, self::$stages)) {
 			throw new \LogicException('Stage must be of those values: 0, 1, 2.');
@@ -257,7 +257,7 @@ class Play implements EntityInterface
 	 *
 	 * @return boolean
 	 */
-	public function isStarted(): boolean
+	public function isStarted(): bool
 	{
 		return $this->stage > self::SETTING;
 	}
@@ -267,7 +267,7 @@ class Play implements EntityInterface
 	 *
 	 * @return boolean
 	 */
-	public function isInProgress(): boolean
+	public function isInProgress(): bool
 	{
 		return $this->stage == self::PROGESS;
 	}
@@ -277,7 +277,7 @@ class Play implements EntityInterface
 	 *
 	 * @return boolean
 	 */
-	public function isEnded(): boolean
+	public function isEnded(): bool
 	{
 		return $this->stage >= self::ENDED;
 	}
