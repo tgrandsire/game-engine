@@ -36,7 +36,7 @@ abstract class Turn implements EntityInterface
 	 *
 	 * @var Player
 	 *
-	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Player\Player", cascade={"persist"})
+	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Player\Player", inversedBy="turns", cascade={"persist"})
      * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
 	 */
 	protected $player;
