@@ -74,7 +74,7 @@ abstract class Player implements
 	 *
 	 * @return Play
 	 */
-	public function getPlay(): Play
+	public function getPlay(): ?Play
 	{
 		return $this->play;
 	}

@@ -18,7 +18,7 @@ Trait EntityTrait
 	 * @ORM\Column(name="id", type="integer")
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 *
-	 * @Groups({"game", "play"})
+	 * @Groups({"game", "play", "turn"})
 	 */
 	protected $id;
 

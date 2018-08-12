@@ -1,5 +1,4 @@
 <?php
-
 namespace AppBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
