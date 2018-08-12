@@ -18,6 +18,11 @@ Encore
         './src/AppBundle/Resources/public/sass/prism.scss'
     ])
 
+    .addEntry('particles', [
+        './node_modules/particles.js/particles.js',
+        './src/AppBundle/Resources/public/sass/particles.scss'
+    ])
+
     // will output as web/build/global.css
     .addStyleEntry('website', './src/AppBundle/Resources/public/sass/foundation.scss')
 

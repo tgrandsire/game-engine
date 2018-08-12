@@ -1,0 +1,40 @@
+$particles_wrapper_height: 180px;
+$particles_container_margin: -50px;
+
+.particles-wrapper {
+    height: $particles_wrapper_height;
+    overflow: hidden;
+
+    .particles-js {
+        margin: $particles_container_margin;
+        position: relative;
+        height: $particles_wrapper_height - ($particles_container_margin * 2);
+        width: calc(100% - ($particles_container_margin * 2));
+        background-color: #35b4b9;
+        color: white;
+        // z-index: -1;
+
+        canvas {
+            display: block;
+            vertical-align: bottom;
+            -webkit-transform: scale(1);
+               -moz-transform: scale(1);
+                -ms-transform: scale(1);
+                 -o-transform: scale(1);
+                    transform: scale(1);
+            opacity: 1;
+            -webkit-transition: opacity .8s ease, -webkit-transform 1.4s ease;
+               -moz-transition: opacity .8s ease, -moz-transform 1.4s ease;
+                -ms-transition: opacity .8s ease, -ms-transform 1.4s ease;
+                 -o-transition: opacity .8s ease, -o-transform 1.4s ease;
+                    transition: opacity .8s ease, transform 1.4s ease;
+        }
+
+        .content {
+            position: absolute;
+            top: ($particles_wrapper_height - 20px) / 2;
+            text-shadow: 0px 0px 8px rgba(0, 0, 0, .2);
+        }
+    }
+}
+

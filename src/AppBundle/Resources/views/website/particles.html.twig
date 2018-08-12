@@ -1,0 +1,35 @@
+{% import _self as particle_macro %}
+
+{% macro generateId() %}
+{% spaceless %}
+    {% set randomId = [] %}
+    {% set alpha = 'abcdefghijklmnopqrstuvwxyz_-' %}
+    {% for i in 1..10 %}
+        {% set randomCharacter = random(alpha) %}
+        {% set randomId = randomId|merge([randomCharacter]) %}
+    {% endfor %}
+    {% set randomId = randomId|join %}
+    {{- randomId -}}
+{% endspaceless %}
+{% endmacro %}
+
+{% set particle_id = particle_macro.generateId %}
+
+<div class="particles-wrapper">
+<div id="{{ particle_id }}" class="particles-js">
+    {% if title is defined and title is not empty %}
+        <div class="grid-container">
+            <div class="content">
+                <h1>
+                    {{ title }}
+                </h1>
+                <p>By Teddy Grandsire, 13 Aug. 2018</p>
+            </div>
+        </div>
+    {% endif %}
+</div>
+</div>
+
+<script>
+    particlesJS.load('{{ particle_id }}', '/bundles/app/json/particles.json');
+</script>
