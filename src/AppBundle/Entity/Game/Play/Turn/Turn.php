@@ -2,6 +2,7 @@
 namespace AppBundle\Entity\Game\Play\Turn;
 
 use AppBundle\Model\{EntityInterface, EntityTrait};
+use AppBundle\Entity\Game\Play\Play;
 use AppBundle\Entity\Game\Play\Player\Player;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -27,7 +28,7 @@ abstract class Turn implements EntityInterface
 	 * @var Play
 	 *
 	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Play", inversedBy="turns")
-     * @ORM\JoinColumn(name="play_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="play_id", referencedColumnName="id", nullable=false)
 	 */
 	protected $play;
 
@@ -37,7 +38,7 @@ abstract class Turn implements EntityInterface
 	 * @var Player
 	 *
 	 * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Game\Play\Player\Player", inversedBy="turns", cascade={"persist"})
-     * @ORM\JoinColumn(name="player_id", referencedColumnName="id")
+     * @ORM\JoinColumn(name="player_id", referencedColumnName="id", nullable=false)
 	 */
 	protected $player;
 

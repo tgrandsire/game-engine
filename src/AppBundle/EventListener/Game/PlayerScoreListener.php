@@ -32,7 +32,7 @@ class PlayerScoreListener
      *
      * @return void
      */
-    public function preRemove(LifecycleEventArgs $args) : void
+    public function preRemove(LifecycleEventArgs $args): void
     {
     	if (! ($scoredTurn = $args->getEntity()) instanceof ScoredTurn) {
     		return;
